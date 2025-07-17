@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: instagram-automation
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 4 -b 0.0.0.0:$PORT app.main:app
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        value: sqlite:///app.db
+      - key: CONTENT_PATH
+        value: /opt/render/project/src/content
+    disk:
+      name: data
+      mountPath: /opt/render/project/src/content
+      sizeGB: 10 
